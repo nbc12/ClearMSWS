@@ -1,0 +1,45 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Cargo Build Release",
+			"group": "build",
+			"type": "cargo",
+			"command": "build",
+			"args": [
+				"--release"
+			],
+			"problemMatcher": [
+				"$rustc"
+			],
+		},
+		{
+			"label": "Copy exe to project root",
+			"group": "build",
+			"type": "shell",
+			"command": ["Copy-Item"],
+			"args": [
+				"./target/release/sql_unlocker.exe",
+				"./sql_unlocker.exe"
+			],
+			"dependsOn": "Cargo Build Release"
+		},
+		{
+			"label": "UPX",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"type": "shell",
+			"command": [
+				"./upx"
+			],
+			"args": [
+				"--best",
+				"--lzma",
+				"./sql_unlocker.exe"
+			],
+			"dependsOn": "Copy exe to project root"
+		},
+	]
+}
